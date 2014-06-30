@@ -7,8 +7,14 @@
 //
 
 #import "HAMAddUUIDViewController.h"
-#import "HAMTools.h"
+
+#import "SVProgressHUD.h"
+
 #import "HAMBeaconManager.h"
+#import "HAMAVOSManager.h"
+
+#import "HAMTools.h"
+#import "HAMLogTool.h"
 
 @interface HAMAddUUIDViewController ()
 
@@ -50,6 +56,8 @@
     return YES;
 }
 
+#pragma mark - Add UUID
+
 - (IBAction)addUUIDClicked:(UIButton *)sender {
     NSString* uuidStringToAdd = self.uuidTextField.text;
     
@@ -60,8 +68,28 @@
         return;
     }
     
+    //web state check
+    if ([HAMTools isWebAvailable] == NO) {
+        [SVProgressHUD showErrorWithStatus:@"无法连接到网络。"];
+        return;
+    }
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    
+    [HAMAVOSManager saveBeaconUUID:[uuidToAdd UUIDString] description:@"未知iBeacon" withTarget:self callback:@selector(didSaveUUID:error:)];
+    
+    //TODO: may change to refresh UUID list in callback
     HAMBeaconManager* beaconManager = [HAMBeaconManager beaconManager];
     [beaconManager startRangingWithUUID:uuidStringToAdd];
-    [HAMTools showAlert:@"UUID已经成功添加。" title:@"成功了!" delegate:self];
+}
+
+- (void)didSaveUUID:(NSNumber *)result error:(NSError *)error{
+    if (error != nil) {
+        [SVProgressHUD showErrorWithStatus:@"保存UUID出错。"];
+        [HAMLogTool error:[NSString stringWithFormat: @"error when save UUID:%@", error.userInfo]];
+        return;
+    }
+    
+    [SVProgressHUD showSuccessWithStatus:@"UUID已经成功添加。"];
 }
 @end

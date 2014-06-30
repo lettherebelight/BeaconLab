@@ -7,11 +7,13 @@
 //
 
 #import "HAMBeaconManager.h"
-#import "HAMDBManager.h"
-#import "HAMTools.h"
-#import "HAMLogTool.h"
 
 #import <AVOSCloud/AVOSCloud.h>
+
+#import "HAMAVOSManager.h"
+
+#import "HAMTools.h"
+#import "HAMLogTool.h"
 
 @interface HAMBeaconManager()
 {}
@@ -61,6 +63,10 @@ static HAMBeaconManager* beaconManager = nil;
 
 #pragma mark - Start Ranging
 
+- (void)refreshUUIDListAndStartRanging{
+    [HAMAVOSManager clearCache];
+}
+
 - (void)startRanging{
     if (self.rangingRegionArray != nil) {
         for (int i = 0; i < self.rangingRegionArray.count; i++) {
@@ -73,13 +79,14 @@ static HAMBeaconManager* beaconManager = nil;
         }
     }
     
+    
     [self queryBeaconsWithTarget:beaconManager callBack:@selector(startRangingWithBeacons:error:)];
 }
 
 - (void)queryBeaconsWithTarget:(id)target callBack:(SEL)callback{
     
     //TODO: change to unique
-    //TODO: change to cached
+    //TODO: move this function to AVOSManager
     
 //    if ([HAMTools isWebAvailable]) {
     AVQuery *query = [AVQuery queryWithClassName:@"BeaconUUID"];
@@ -92,36 +99,53 @@ static HAMBeaconManager* beaconManager = nil;
 }
 
 - (void)startRangingWithBeacons:(NSArray*)uuidInfoArray error:(NSError*)error{
-    if (!error) {
-        self.descriptionDictionary = [NSMutableDictionary dictionary];
-        NSMutableArray* beaconUUIDArray = [NSMutableArray array];
+    if (error != nil) {
+        [HAMLogTool error:[NSString stringWithFormat:@"error when query UUID list:%@", error]];
         
-        //parse data
-        for (int i = 0; i < uuidInfoArray.count; i++) {
-            AVObject* beacon = uuidInfoArray[i];
-            NSString* beaconUUID = [beacon objectForKey:@"proximityUUID"];
-            
-            NSString* description = [beacon objectForKey:@"description"];
-            if (description == nil) {
-                description = @"未知品牌";
-            }
-            
-            [self.descriptionDictionary setObject:description forKey:beaconUUID];
-            [beaconUUIDArray addObject:beaconUUID];
-        }
-
-        //start ranging
-        self.rangingRegionArray = [NSMutableArray array];
-        for (int i = 0; i < beaconUUIDArray.count; i++) {
-            [self startRangingWithUUID:beaconUUIDArray[i]];
-        }
+//        switch (error.code) {
+//            case 120:
+                [HAMTools showAlert:@"无法获取到UUID列表。请检查您的网络设置，之后点击“更新UUID列表”。" title:@"出错啦！" delegate:self];
+//                break;
         
-        if (self.observer != nil) {
-            [self.observer didStartRanging];
-        }
-    } else {
-        [HAMLogTool error:[NSString stringWithFormat:@"%@ %@", error, [error userInfo]]];
+//            default:
+//                break;
+//        }
+        return;
     }
+    
+    NSMutableArray* beaconUUIDArray = [NSMutableArray array];
+    
+    //parse data
+    for (int i = 0; i < uuidInfoArray.count; i++) {
+        AVObject* beacon = uuidInfoArray[i];
+        NSString* beaconUUIDString = [beacon objectForKey:@"proximityUUID"];
+        
+        NSString* description = [beacon objectForKey:@"description"];
+        if (description == nil) {
+            description = @"未知iBeacon";
+        }
+        
+        NSUUID* uuidCheck = [[NSUUID alloc] initWithUUIDString:beaconUUIDString];
+        if (uuidCheck == nil) {
+            [HAMLogTool warn:[NSString stringWithFormat:@"invalid uuid ignored: %@", beaconUUIDString]];
+            continue;
+        }
+        
+        NSString* beaconUUIDChecked = [uuidCheck UUIDString];
+        [self.descriptionDictionary setObject:description forKey:beaconUUIDChecked];
+        [beaconUUIDArray addObject:beaconUUIDChecked];
+    }
+    
+    //start ranging
+    self.rangingRegionArray = [NSMutableArray array];
+    for (int i = 0; i < beaconUUIDArray.count; i++) {
+        [self startRangingWithUUID:beaconUUIDArray[i]];
+    }
+    
+    if (self.observer != nil) {
+        [self.observer didStartRanging];
+    }
+    self.descriptionDictionary = [NSMutableDictionary dictionary];
 }
 
 - (void)startRangingWithUUID:(NSString*)beaconID{

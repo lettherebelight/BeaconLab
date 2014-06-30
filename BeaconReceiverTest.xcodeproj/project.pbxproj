@@ -106,6 +106,8 @@
 		668090EE1925E7E900395A88 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668090CF1925E7E900395A88 /* iTunesArtwork@2x.png */; };
 		668090EF1925E7E900395A88 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 668090CF1925E7E900395A88 /* iTunesArtwork@2x.png */; };
 		66B08DCA18B5E49500876562 /* HAMBeaconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B08DC918B5E49500876562 /* HAMBeaconViewController.m */; };
+		66B39ABF1961E9A0000BA19D /* HAMAVOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B39ABE1961E9A0000BA19D /* HAMAVOSManager.m */; };
+		66B39AC01961E9A0000BA19D /* HAMAVOSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B39ABE1961E9A0000BA19D /* HAMAVOSManager.m */; };
 		66FD922918BD04CA0091F162 /* HAMBeaconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD922818BD04CA0091F162 /* HAMBeaconManager.m */; };
 		66FD922A18BD04CA0091F162 /* HAMBeaconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66FD922818BD04CA0091F162 /* HAMBeaconManager.m */; };
 /* End PBXBuildFile section */
@@ -202,6 +204,8 @@
 		668090CF1925E7E900395A88 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		66B08DC818B5E49500876562 /* HAMBeaconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMBeaconViewController.h; sourceTree = "<group>"; };
 		66B08DC918B5E49500876562 /* HAMBeaconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMBeaconViewController.m; sourceTree = "<group>"; };
+		66B39ABD1961E9A0000BA19D /* HAMAVOSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMAVOSManager.h; sourceTree = "<group>"; };
+		66B39ABE1961E9A0000BA19D /* HAMAVOSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMAVOSManager.m; sourceTree = "<group>"; };
 		66FD922718BD04CA0091F162 /* HAMBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HAMBeaconManager.h; sourceTree = "<group>"; };
 		66FD922818BD04CA0091F162 /* HAMBeaconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HAMBeaconManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -391,6 +395,8 @@
 				6636EC7F18B495A400F94E6C /* HAMDBManager.m */,
 				66FD922718BD04CA0091F162 /* HAMBeaconManager.h */,
 				66FD922818BD04CA0091F162 /* HAMBeaconManager.m */,
+				66B39ABD1961E9A0000BA19D /* HAMAVOSManager.h */,
+				66B39ABE1961E9A0000BA19D /* HAMAVOSManager.m */,
 			);
 			path = managers;
 			sourceTree = "<group>";
@@ -625,6 +631,7 @@
 				6636EC9918B526A700F94E6C /* HAMWebTool.m in Sources */,
 				6636EC5E18B39EF000F94E6C /* HAMViewController.m in Sources */,
 				66FD922918BD04CA0091F162 /* HAMBeaconManager.m in Sources */,
+				66B39ABF1961E9A0000BA19D /* HAMAVOSManager.m in Sources */,
 				66B08DCA18B5E49500876562 /* HAMBeaconViewController.m in Sources */,
 				662FE7A21923A61500CF0C41 /* EGORefreshTableHeaderView.m in Sources */,
 				662FE7A41923A61500CF0C41 /* LoadMoreTableFooterView.m in Sources */,
@@ -641,6 +648,7 @@
 				6636EC9A18B526A700F94E6C /* HAMWebTool.m in Sources */,
 				662FE7A31923A61500CF0C41 /* EGORefreshTableHeaderView.m in Sources */,
 				668090BE1925DF9800395A88 /* SVProgressHUD.m in Sources */,
+				66B39AC01961E9A0000BA19D /* HAMAVOSManager.m in Sources */,
 				662FE7A71923A61500CF0C41 /* MessageInterceptor.m in Sources */,
 				661328BF1921401D003945E3 /* HAMAddUUIDViewController.m in Sources */,
 				6636EC9218B4A91400F94E6C /* HAMTools.m in Sources */,

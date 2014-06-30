@@ -105,6 +105,8 @@
         return;
     }
     
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    
     HAMBeaconManager* beaconManager = [HAMBeaconManager beaconManager];
     self.firstStartRanging = NO;
     self.fetchUUIDListButton.enabled = NO;
@@ -211,26 +213,5 @@
         beaconViewController.beaconToReview = beaconSelected;
     }
 }
-
-/*
-#pragma mark - Pull and Refresh
-
-- (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
-{
-//    [self performSelector:@selector(refreshTable) withObject:nil afterDelay:3.0f];
-    [self refreshTable];
-}
-
-- (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
-{
-//    [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:3.0f];
-    NSLog(@"load more");
-}
-
-- (void)refreshTable{
-    NSLog(@"refresh");
-    self.beaconTableView.pullLastRefreshDate = [NSDate date];
-    self.beaconTableView.pullTableIsRefreshing = NO;
-}*/
 
 @end
